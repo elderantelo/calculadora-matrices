@@ -1,0 +1,27 @@
+name: Build Windows EXE
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PyInstaller
+        run: pip install --upgrade pip pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --noconfirm --onefile --windowed --name "Calculadora de Matrices" matrix_calculator_tk.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Calculadora-de-Matrices-windows
+          path: "dist/Calculadora de Matrices.exe"
